@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- A CardView that contains a TextView -->
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        card_view:cardCornerRadius="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/status_icon_parking_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_icon"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/status_icon_parking_detail"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/header_text_parking_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/card_view_text_size"
+                        android:text="Engineering Parking 1" />
+
+                    <TextView
+                        android:id="@+id/header_text_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/card_view_text_size"
+                        android:text="Last update: 15/04/2016" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/text_available"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:textSize="@dimen/card_view_text_size"
+                android:text="Available : 9"
+                android:padding="16dp"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/text_total_car"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:textSize="@dimen/card_view_text_size"
+                android:text="Total cars : 9 / 19"
+                android:padding="16dp"
+                android:gravity="center_vertical"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <!--<ImageView-->
+            <!--android:id="@+id/parking_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:src="@drawable/sample_parking_lot"-->
+            <!--android:layout_weight="1"/>-->
+
+            <com.tnpxu.tuparkinglot.customview.ParkingView
+                android:id="@+id/parking_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/holo_green_dark"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/peak_pic_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_picture"
+                    android:layout_alignParentRight="true"/>
+
+                <ImageView
+                    android:id="@+id/bookmark_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_bookmark"
+                    android:layout_toLeftOf="@id/peak_pic_icon"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
