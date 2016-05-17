@@ -115,13 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initFragment() {
-//        Fragment fragment = ParkingMapFragment.newInstance();
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().add(R.id.flContent, fragment).commit();
-//        setTitle("Parking Map");
-
-    }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);

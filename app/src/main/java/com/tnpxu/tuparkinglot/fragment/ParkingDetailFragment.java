@@ -1,14 +1,19 @@
 package com.tnpxu.tuparkinglot.fragment;
 
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tnpxu.tuparkinglot.R;
 import com.tnpxu.tuparkinglot.customview.ParkingView;
@@ -22,12 +27,15 @@ import org.w3c.dom.Text;
 public class ParkingDetailFragment extends Fragment {
 
     public ImageView imageViewBookmark;
+    public ImageView imageViewPeakingMap;
     public ParkingView parkingView;
 
     public TextView textViewParkingName;
     public TextView textViewDate;
     public TextView textViewAvailable;
     public TextView textViewTotalCar;
+
+    public ParkingDetailWrapParcel parkingDetailWrapParcel;
 
     public static ParkingDetailFragment newInstance(Bundle myData) {
 
@@ -69,7 +77,7 @@ public class ParkingDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ParkingDetailWrapParcel parkingDetailWrapParcel = getArguments().getParcelable("DetailData");
+        parkingDetailWrapParcel = getArguments().getParcelable("DetailData");
         getArguments().remove("DetailData");
 
         imageViewBookmark = (ImageView)getView().findViewById(R.id.bookmark_icon);
@@ -80,6 +88,14 @@ public class ParkingDetailFragment extends Fragment {
                 int color = Color.parseColor("#ff0000"); // red color
                 imageViewBookmark.setColorFilter(color);
 
+            }
+        });
+
+        imageViewPeakingMap = (ImageView) getView().findViewById(R.id.peak_pic_icon);
+        imageViewPeakingMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPeakingMapDialog();
             }
         });
 
@@ -116,6 +132,27 @@ public class ParkingDetailFragment extends Fragment {
             // Restore state here
 
         }
+
+    }
+
+    public void showPeakingMapDialog() {
+
+        // manipulate picURL path
+        int beginStringPathURL = parkingDetailWrapParcel.getParkingPicUrl().indexOf("drone1");
+        String picURL =  "http://parkingserver.cloudapp.net:3000/public/cropped_images/" + parkingDetailWrapParcel.getParkingPicUrl().substring(beginStringPathURL);
+        // DialogFragment.show() will take care of adding the fragment
+        // in a transaction.  We also want to remove any currently showing
+        // dialog, so make our own transaction and take care of that here.
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("PeakingMapDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = PeakingMapDialogFragment.newInstance(picURL);
+        newFragment.show(ft, "PeakingMapDialog");
 
     }
 }
