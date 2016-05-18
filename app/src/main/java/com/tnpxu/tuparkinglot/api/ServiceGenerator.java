@@ -16,7 +16,6 @@ import retrofit.Retrofit;
 public class ServiceGenerator {
     public static final String API_BASE_URL = "http://parkingserver.cloudapp.net:3000";
 //    public static final String API_BASE_URL = "http://192.168.43.185:3000";
-
 //    public static final String API_BASE_URL = "http://172.16.105.153:3000";
 
     //custom deserialzation

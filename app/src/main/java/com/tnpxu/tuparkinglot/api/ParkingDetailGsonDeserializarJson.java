@@ -23,7 +23,7 @@ public class ParkingDetailGsonDeserializarJson implements JsonDeserializer<Parki
 
         ParkingDetailWrap parkingDetailWrap = new ParkingDetailWrap();
 
-        //1st chunck
+        //1st chunk
         JsonObject parkingDetailWrapJson = je.getAsJsonObject();
         parkingDetailWrap.setToken(parkingDetailWrapJson.get("token").getAsString());
         parkingDetailWrap.setParkinglotName(parkingDetailWrapJson.get("parkinglotName").getAsString());
@@ -32,7 +32,7 @@ public class ParkingDetailGsonDeserializarJson implements JsonDeserializer<Parki
         parkingDetailWrap.setParkingWidth(parkingDetailWrapJson.get("parkingWidth").getAsString());
         parkingDetailWrap.setParkingHeight(parkingDetailWrapJson.get("parkingHeight").getAsString());
 
-        //parkingdetail chunck
+        //parking detail chunk
         JsonObject parkingDetailJson = parkingDetailWrapJson.get("parkingDetail").getAsJsonObject();
         ParkingDetail parkingDetail = new ParkingDetail();
         parkingDetail.setParkingStatus(parkingDetailJson.get("parkingStatus").getAsString());

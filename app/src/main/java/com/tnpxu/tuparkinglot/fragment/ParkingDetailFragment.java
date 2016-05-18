@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import org.w3c.dom.Text;
 /**
  * Created by tnpxu on 4/26/16 AD.
  */
-public class ParkingDetailFragment extends Fragment {
+public class ParkingDetailFragment extends Fragment implements OnClickListener {
 
     public ImageView imageViewBookmark;
     public ImageView imageViewPeakingMap;
@@ -40,24 +41,18 @@ public class ParkingDetailFragment extends Fragment {
     public static ParkingDetailFragment newInstance(Bundle myData) {
 
         ParkingDetailFragment fragment = new ParkingDetailFragment();
-        //args.put.....
 
-        //set to argument
         fragment.setArguments(myData);
         return fragment;
-
     }
 
     public ParkingDetailFragment () {}
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-
-
-
     }
-
 
     @Nullable
     @Override
@@ -77,28 +72,48 @@ public class ParkingDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        //fetch parcel data
         parkingDetailWrapParcel = getArguments().getParcelable("DetailData");
         getArguments().remove("DetailData");
 
-        imageViewBookmark = (ImageView)getView().findViewById(R.id.bookmark_icon);
-        imageViewBookmark.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        //should i init UI in onActivityCreated or onViewCreated
+        initUI();
 
-                int color = Color.parseColor("#ff0000"); // red color
+        if(savedInstanceState != null) {
+            // Restore state here
+
+        }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.bookmark_icon:
+                // red color
+                int color = Color.parseColor("#ff0000");
                 imageViewBookmark.setColorFilter(color);
-
-            }
-        });
-
-        imageViewPeakingMap = (ImageView) getView().findViewById(R.id.peak_pic_icon);
-        imageViewPeakingMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.peak_pic_icon:
+                //clicking to peak map
                 showPeakingMapDialog();
-            }
-        });
+                break;
+            default:
+        }
+    }
 
+    public void initUI() {
+
+        //bookmark icon
+        imageViewBookmark = (ImageView) getView().findViewById(R.id.bookmark_icon);
+        imageViewBookmark.setOnClickListener(this);
+
+        //peaking map icon
+        imageViewPeakingMap = (ImageView) getView().findViewById(R.id.peak_pic_icon);
+        imageViewPeakingMap.setOnClickListener(this);
+
+        //custom parking view
         parkingView = (ParkingView)getView().findViewById(R.id.parking_view);
         //rendering parkingslot customview
         float realWidth = Float.parseFloat(parkingDetailWrapParcel.getParkingWidth());
@@ -121,18 +136,10 @@ public class ParkingDetailFragment extends Fragment {
 
         textViewTotalCar = (TextView)getView().findViewById(R.id.text_total_car);
         String totalCarString = "Total cars : " +
-                                parkingDetailWrapParcel.getParkingDetailParcel().getCarCount()
-                                + "/" +
-                                parkingDetailWrapParcel.getParkingDetailParcel().getSlotSize();
+                parkingDetailWrapParcel.getParkingDetailParcel().getCarCount()
+                + "/" +
+                parkingDetailWrapParcel.getParkingDetailParcel().getSlotSize();
         textViewTotalCar.setText(totalCarString);
-
-
-
-        if(savedInstanceState != null) {
-            // Restore state here
-
-        }
-
     }
 
     public void showPeakingMapDialog() {
