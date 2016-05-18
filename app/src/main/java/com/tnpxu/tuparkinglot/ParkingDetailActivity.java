@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -34,15 +35,17 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 
-public class ParkingDetailActivity extends AppCompatActivity {
+public class ParkingDetailActivity extends AppCompatActivity implements OnClickListener {
 
     private Toolbar toolbar;
     private ImageButton imageViewRefresh;
     private ImageView imageViewBookmark;
     private ProgressBar progress;
+
     private String token;
     public ParkingDetailWrapParcel parkingDetailWrapParcel;
 
+    //handler fragment to inflate
     public Handler detailHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -60,9 +63,9 @@ public class ParkingDetailActivity extends AppCompatActivity {
     });
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking_detail);
 
@@ -71,6 +74,28 @@ public class ParkingDetailActivity extends AppCompatActivity {
         token = intent.getExtras().getString("token");
         intent.removeExtra("token");
 
+        //initiate view
+        initUI();
+
+        //get api and inflate fragment
+        getApi();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.refresh_view:
+
+                killDetailFragment();
+                getApi();
+                break;
+            default:
+        }
+    }
+
+    public void initUI() {
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar_parking_detail);
         setSupportActionBar(toolbar);
@@ -85,45 +110,40 @@ public class ParkingDetailActivity extends AppCompatActivity {
         });
 
         imageViewRefresh = (ImageButton)findViewById(R.id.refresh_view);
-        imageViewRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                killDetailFragment();
-                getApi();
-            }
-        });
+        imageViewRefresh.setOnClickListener(this);
 
-        progress = (ProgressBar) findViewById(R.id.progressBarParkingDetail);
-
-        getApi();
-
+        progress = (ProgressBar) findViewById(R.id.progress_download_parking_detail);
     }
 
     public void killDetailFragment() {
-        Fragment detailFragment = getSupportFragmentManager().findFragmentById(R.id.flContentParkingDetail);
+
+        Fragment detailFragment = getSupportFragmentManager().findFragmentById(R.id.fl_parking_detail_content);
         if (detailFragment != null)
             getSupportFragmentManager().beginTransaction().remove(detailFragment).commit();
     }
 
     public void hideProgress() {
+
         progress.setVisibility(ProgressBar.INVISIBLE);
         progress.getLayoutParams().height = 0;
         progress.getLayoutParams().width = 0;
     }
 
     public void showProgress() {
+
         progress.setVisibility(ProgressBar.VISIBLE);
         progress.getLayoutParams().height = progress.getLayoutParams().MATCH_PARENT;
         progress.getLayoutParams().width = progress.getLayoutParams().WRAP_CONTENT;
     }
 
     public void showFragment() {
+
         Bundle myData = new Bundle();
         myData.putParcelable("DetailData",parkingDetailWrapParcel);
         Fragment fragment = ParkingDetailFragment.newInstance(myData);
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContentParkingDetail, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fl_parking_detail_content, fragment).commit();
     }
 
     public void getApi() {
@@ -157,12 +177,6 @@ public class ParkingDetailActivity extends AppCompatActivity {
                 parkingDetailWrapParcel.setParkinglotName(response.body().getParkinglotName());
                 parkingDetailWrapParcel.setParkingPicUrl(response.body().getParkingPicUrl());
 
-                //store return data to parcel
-//                parcel = new MapDataResParcel();
-//                parcel.setAllData(response.body().getMapDataRes().getAllData());
-
-//               Toast.makeText(ParkingDetailActivity.this,"" + new Gson().toJson(response),Toast.LENGTH_LONG).show();
-//               Toast.makeText(ParkingDetailActivity.this,"" + response.body().getToken(),Toast.LENGTH_LONG).show();
 
                 detailHandler.sendEmptyMessage(1);
 
