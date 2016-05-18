@@ -50,11 +50,11 @@ public class PeakingMapDialogFragment extends DialogFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
         imageViewGetMap = (ImageView) view.findViewById(R.id.image_map_view);
 
         Glide.with(getActivity()).load(picURL).into(imageViewGetMap);
-
     }
 
 

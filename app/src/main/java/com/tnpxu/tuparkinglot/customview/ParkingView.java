@@ -43,19 +43,21 @@ public class ParkingView extends View {
 
 
     public ParkingView(Context context, AttributeSet attrs) {
+
         super(context, attrs);
         detector = new ScaleGestureDetector(getContext(), new ScaleListener());
-
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         detector.onTouchEvent(event);
         return true;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+
         Canvas mCanvas = canvas;
         //1st must set drawingbox
         setDrawingBox();
@@ -238,7 +240,6 @@ public class ParkingView extends View {
         }
     }
 
-
     public float widthPercentToRealSize(float percentWidth,float areaWidth,boolean shrinkMode) {
         float realSize = 0f;
 
@@ -285,9 +286,11 @@ public class ParkingView extends View {
         setMeasuredDimension(widthMeasure, heightMeasure);
     }
 
+    //pinch to zoom
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
+
             scaleFactor *= detector.getScaleFactor();
             scaleFactor = Math.max(MIN_ZOOM, Math.min(scaleFactor, MAX_ZOOM));
             invalidate();
