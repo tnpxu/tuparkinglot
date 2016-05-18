@@ -52,10 +52,6 @@ public class ParkingMapFragment extends Fragment implements GoogleMap.OnInfoWind
     public static ParkingMapFragment newInstance(Bundle myData) {
 
         ParkingMapFragment fragment = new ParkingMapFragment();
-        Bundle args = new Bundle();
-        //args.put.....
-
-        //set to argument
         fragment.setArguments(myData);
         return fragment;
     }
@@ -72,17 +68,13 @@ public class ParkingMapFragment extends Fragment implements GoogleMap.OnInfoWind
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
     }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_parking_map, container, false);
-
 
         return rootView;
     }
@@ -96,6 +88,7 @@ public class ParkingMapFragment extends Fragment implements GoogleMap.OnInfoWind
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        //transaction map fragment
         MapFragment mapFragment = (MapFragment) myContext.getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -107,8 +100,6 @@ public class ParkingMapFragment extends Fragment implements GoogleMap.OnInfoWind
         }
 
     }
-
-
 
     public void onDestroyView() {
         super.onDestroyView();
@@ -131,7 +122,8 @@ public class ParkingMapFragment extends Fragment implements GoogleMap.OnInfoWind
         List<AllDataInParcel> getList = getParcel.getAllDataInParcels();
 
         if(!getList.isEmpty()) {
-            //fetch sall MapData to pin each location on map
+
+            //fetch all MapData to pin each location on map
             for (int i = 0; i < getList.size(); i++) {
 
                 //modified data type
@@ -175,13 +167,14 @@ public class ParkingMapFragment extends Fragment implements GoogleMap.OnInfoWind
 
         String tokenToSend = nameMapToken.get(marker.getTitle());
         intentTo(tokenToSend);
-//        Toast.makeText(getActivity(),marker.getTitle() + tokenToSend,Toast.LENGTH_LONG).show();
 
     }
 
+    //intent to ParkingDetailActivity
     public void intentTo(String tokenToSend) {
         Intent intent = new Intent(myContext, ParkingDetailActivity.class);
         intent.putExtra("token",tokenToSend);
         startActivity(intent);
     }
+
 }
