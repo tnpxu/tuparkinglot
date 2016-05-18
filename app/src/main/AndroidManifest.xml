@@ -31,6 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"/>
@@ -39,6 +40,7 @@
             android:name=".ParkingDetailActivity"
             android:screenOrientation="portrait"
             />
+
     </application>
 
 </manifest>

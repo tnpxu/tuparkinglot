@@ -75,7 +75,7 @@ public class ParkingView extends View {
                 drawingCarSlot(mCanvas,xPercent,yPercent,widthPercent,heightPercent,isAvailable);
             }
         }
-
+//// test set
 //        drawingCarSlot(mCanvas,0.93f,4.95f,7.38f,57.95f,false);
 //        drawingCarSlot(mCanvas,8.39f,3.89f,7.53f,59.72f,true);
 //        drawingCarSlot(mCanvas,15.93f,2.12f,7.77f,61.84f,false);
@@ -159,41 +159,6 @@ public class ParkingView extends View {
             if(!isAvailable) {
                mBitmapParkingSlot = BitmapFactory.decodeResource(getResources(),R.drawable.ic_car_vertical);
 
-                //check width , height to shrink if height > width more than 3times shirnk it
-//                if(heightPercent / widthPercent >= 3.0) {
-//
-//                    mBitmapParkingSlot = getResizedBitmap(
-//                            mBitmapParkingSlot,
-//                            widthPercentToRealSize(widthPercent,getWidth(),false),
-//                            heightPercentToRealSize(heightPercent,getHeight(),true)
-//                            );
-//                    //shrink height then offset y coordinate with 1.5 too
-//                    coordinateMatrix.postTranslate(
-//                            widthPercentToRealSize(xPercent, getWidth(), false),
-//                            heightPercentToRealSize(yPercent + (heightPercent - (heightPercentToRealSize(heightPercent, getHeight(), true) * 100 / getHeight())), getHeight(), false)
-//                    );
-//
-//                    mCanvas.drawBitmap(mBitmapParkingSlot,coordinateMatrix,null);
-//
-//
-//
-//                } else {
-//
-//                    mBitmapParkingSlot = getResizedBitmap(
-//                            mBitmapParkingSlot,
-//                            widthPercentToRealSize(widthPercent,getWidth(),false),
-//                            heightPercentToRealSize(heightPercent,getHeight(),false)
-//                    );
-//
-//                    coordinateMatrix.postTranslate(
-//                            widthPercentToRealSize(xPercent,getWidth(),false),
-//                            heightPercentToRealSize(yPercent,getHeight(),false)
-//                    );
-//
-//                    mCanvas.drawBitmap(mBitmapParkingSlot,coordinateMatrix,null);
-//
-//                }
-
                 mBitmapParkingSlot = getResizedBitmap(
                         mBitmapParkingSlot,
                         widthPercentToRealSize(widthPercent,widthDrawingBox,false),
@@ -212,41 +177,6 @@ public class ParkingView extends View {
             //empty slot
             if(isAvailable) {
                 mBitmapParkingSlot = BitmapFactory.decodeResource(getResources(),R.drawable.ic_empty_vertical);
-
-                //check width , height to shrink if height > width more than 3times shirnk it
-//                if(heightPercent / widthPercent >= 3.0) {
-//
-//                    mBitmapParkingSlot = getResizedBitmap(
-//                            mBitmapParkingSlot,
-//                            widthPercentToRealSize(widthPercent,getWidth(),false),
-//                            heightPercentToRealSize(heightPercent,getHeight(),true)
-//                    );
-//
-//                    //shrink height then offset y coordinate with 1.5 too
-//                    coordinateMatrix.postTranslate(
-//                            widthPercentToRealSize(xPercent,getWidth(),false),
-//                            heightPercentToRealSize(yPercent + (heightPercent - (heightPercentToRealSize(heightPercent, getHeight(), true) * 100 / getHeight())), getHeight(), false)
-//                    );
-//
-//                    mCanvas.drawBitmap(mBitmapParkingSlot,coordinateMatrix,null);
-//
-//
-//                } else {
-//
-//                    mBitmapParkingSlot = getResizedBitmap(
-//                            mBitmapParkingSlot,
-//                            widthPercentToRealSize(widthPercent,getWidth(),false),
-//                            heightPercentToRealSize(heightPercent,getHeight(),false)
-//                    );
-//
-//                    coordinateMatrix.postTranslate(
-//                            widthPercentToRealSize(xPercent,getWidth(),false),
-//                            heightPercentToRealSize(yPercent,getHeight(),false)
-//                    );
-//
-//                    mCanvas.drawBitmap(mBitmapParkingSlot,coordinateMatrix,null);
-//
-//                }
 
                 mBitmapParkingSlot = getResizedBitmap(
                         mBitmapParkingSlot,
@@ -271,40 +201,6 @@ public class ParkingView extends View {
             if(!isAvailable) {
                 mBitmapParkingSlot = BitmapFactory.decodeResource(getResources(),R.drawable.ic_car_horizontal);
 
-                //check width , height to shrink if width > height more than 3times shirnk it
-//                if(widthPercent / heightPercent >= 3.0) {
-//
-//                    mBitmapParkingSlot = getResizedBitmap(
-//                            mBitmapParkingSlot,
-//                            widthPercentToRealSize(widthPercent,getWidth(),true),
-//                            heightPercentToRealSize(heightPercent,getHeight(),false)
-//                    );
-//
-//                    //shrink width then offset x coordinate with 1.5 too
-//                    coordinateMatrix.postTranslate(
-//                            widthPercentToRealSize(xPercent,getWidth(),true),
-//                            heightPercentToRealSize(yPercent,getHeight(),false)
-//                    );
-//
-//                    mCanvas.drawBitmap(mBitmapParkingSlot,coordinateMatrix,null);
-//
-//
-//                } else {
-//
-//                    mBitmapParkingSlot = getResizedBitmap(
-//                            mBitmapParkingSlot,
-//                            widthPercentToRealSize(widthPercent,getWidth(),false),
-//                            heightPercentToRealSize(heightPercent,getHeight(),false)
-//                    );
-//
-//                    coordinateMatrix.postTranslate(
-//                            widthPercentToRealSize(xPercent,getWidth(),false),
-//                            heightPercentToRealSize(yPercent,getHeight(),false)
-//                    );
-//
-//                    mCanvas.drawBitmap(mBitmapParkingSlot,coordinateMatrix,null);
-//
-//                }
 
                 mBitmapParkingSlot = getResizedBitmap(
                         mBitmapParkingSlot,
@@ -324,40 +220,6 @@ public class ParkingView extends View {
             if(isAvailable) {
                 mBitmapParkingSlot = BitmapFactory.decodeResource(getResources(),R.drawable.ic_empty_horizontal);
 
-                //check width , height to shrink if height > width more than 3times shirnk it
-//                if(widthPercent / heightPercent >= 3.0) {
-//
-//                    mBitmapParkingSlot = getResizedBitmap(
-//                            mBitmapParkingSlot,
-//                            widthPercentToRealSize(widthPercent,getWidth(),true),
-//                            heightPercentToRealSize(heightPercent,getHeight(),false)
-//                    );
-//
-//                    //shrink width then offset x coordinate with 1.5 too
-//                    coordinateMatrix.postTranslate(
-//                            widthPercentToRealSize(xPercent,getWidth(),true),
-//                            heightPercentToRealSize(yPercent,getHeight(),false)
-//                    );
-//
-//                    mCanvas.drawBitmap(mBitmapParkingSlot,coordinateMatrix,null);
-//
-//
-//                } else {
-//
-//                    mBitmapParkingSlot = getResizedBitmap(
-//                            mBitmapParkingSlot,
-//                            widthPercentToRealSize(widthPercent,getWidth(),false),
-//                            heightPercentToRealSize(heightPercent,getHeight(),false)
-//                    );
-//
-//                    coordinateMatrix.postTranslate(
-//                            widthPercentToRealSize(xPercent,getWidth(),false),
-//                            heightPercentToRealSize(yPercent,getHeight(),false)
-//                    );
-//
-//                    mCanvas.drawBitmap(mBitmapParkingSlot,coordinateMatrix,null);
-//
-//                }
 
                 mBitmapParkingSlot = getResizedBitmap(
                         mBitmapParkingSlot,
@@ -379,11 +241,6 @@ public class ParkingView extends View {
 
     public float widthPercentToRealSize(float percentWidth,float areaWidth,boolean shrinkMode) {
         float realSize = 0f;
-//        if(shrinkMode) {
-//            realSize = (percentWidth / 1.5f * areaWidth) / 100;
-//        } else {
-//            realSize = (percentWidth  * areaWidth) / 100;
-//        }
 
         realSize = (percentWidth  * areaWidth) / 100;
 
@@ -394,11 +251,6 @@ public class ParkingView extends View {
     public float heightPercentToRealSize(float percentHeight,float areaHeight,boolean shrinkMode) {
 
         float realSize = 0f;
-//        if(shrinkMode) {
-//            realSize = (percentHeight / 1.5f * areaHeight) / 100;
-//        } else {
-//            realSize = (percentHeight * areaHeight) / 100;
-//        }
 
         realSize = (percentHeight * areaHeight) / 100;
 

@@ -43,7 +43,9 @@ public class PeakingMapDialogFragment extends DialogFragment {
         picURL = getArguments().getString("picurl");
         getArguments().remove("picurl");
 
-        return inflater.inflate(R.layout.dialog_fragment_peakingmap, container);
+        View rootView = inflater.inflate(R.layout.dialog_fragment_peakingmap, container);
+
+        return rootView;
     }
 
     @Override
@@ -53,8 +55,6 @@ public class PeakingMapDialogFragment extends DialogFragment {
 
         Glide.with(getActivity()).load(picURL).into(imageViewGetMap);
 
-//        getDialog().getWindow().setSoftInputMode(
-//                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
 

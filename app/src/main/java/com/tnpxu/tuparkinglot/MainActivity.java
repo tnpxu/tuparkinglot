@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView nvDrawer;
     private ActionBarDrawerToggle drawerToggle;
     private ProgressBar progress;
-    private Bundle serviceBundle;
 
     private MapDataResParcel parcel;
     private MapDataRes collectMapDataRes;
@@ -60,7 +59,9 @@ public class MainActivity extends AppCompatActivity {
         INFORMATION
     }
 
+    // handle which fragment will inflate
     public Handler mainHandler = new Handler (new Handler.Callback() {
+
         @Override
         public boolean handleMessage(Message msg) {
 
@@ -82,90 +83,31 @@ public class MainActivity extends AppCompatActivity {
         }
     });
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set a Toolbar to replace the ActionBar.
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initUI();
 
-        // Find our drawer view
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerToggle = setupDrawerToggle();
-        // Tie DrawerLayout events to the ActionBarToggle
-        mDrawer.setDrawerListener(drawerToggle);
-
-
-        // Find our drawer view
-        nvDrawer = (NavigationView) findViewById(R.id.nvView);
-        //Don't Tint My icon u jerk!!!!
-        nvDrawer.setItemIconTintList(null);
-        // Setup drawer view
-        setupDrawerContent(nvDrawer);
-
-        // init progress bar
-        progress = (ProgressBar) findViewById(R.id.progressBar);
-
-        //1st time initiate fragment
+        //get api before initiate fragment
         getApi(FragmentTag.PARKINGMAP);
 
     }
 
-
-    private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        selectDrawerItem(menuItem);
-                        return true;
-                    }
-                });
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        drawerToggle.onConfigurationChanged(newConfig);
     }
-
-    public void selectDrawerItem(MenuItem menuItem) {
-
-        //navigation drawer click
-        switch (menuItem.getItemId()) {
-            case R.id.nav_first_fragment:
-                //kill Mapfragment for avoid duplicate fragment
-                killMapFragment();
-                getApi(FragmentTag.PARKINGMAP);
-                break;
-            case R.id.nav_second_fragment:
-                getApi(FragmentTag.BOOKMARK);
-                break;
-            case R.id.nav_third_fragment:
-                getApi(FragmentTag.INFORMATION);
-                break;
-            default:
-        }
-
-
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
-        // Set action bar title
-        setTitle(menuItem.getTitle());
-        // Close the navigation drawer
-        mDrawer.closeDrawers();
-    }
-
-    public void killMapFragment() {
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.map);
-        if (mapFragment != null)
-            getFragmentManager().beginTransaction().remove(mapFragment).commit();
-    }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -184,37 +126,101 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // `onPostCreate` called when activity start-up is complete after `onStart()`
-    // NOTE! Make sure to override the method with only a single `Bundle` argument
-    //send argument to fragment on this
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState();
+    private void initUI() {
+
+        // Set a Toolbar to replace the ActionBar.
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Find our drawer view
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerToggle = setupDrawerToggle();
+        // Tie DrawerLayout events to the ActionBarToggle
+        mDrawer.setDrawerListener(drawerToggle);
+
+        // Find our drawer view
+        nvDrawer = (NavigationView) findViewById(R.id.nv_view);
+        //Don't Tint My icon u jerk!!!!
+        nvDrawer.setItemIconTintList(null);
+        // Setup drawer view
+        setupDrawerContent(nvDrawer);
+
+        // init progress bar
+        progress = (ProgressBar) findViewById(R.id.progress_download);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggles
-        drawerToggle.onConfigurationChanged(newConfig);
+    private ActionBarDrawerToggle setupDrawerToggle() {
+
+        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
     }
 
+    // A.K.A menus on the left selected event handle
+    private void setupDrawerContent(NavigationView navigationView) {
 
-    public void hideProgress() {
+        navigationView.setNavigationItemSelectedListener(
+
+                new NavigationView.OnNavigationItemSelectedListener() {
+
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    // menus on the left selected!!
+    private void selectDrawerItem(MenuItem menuItem) {
+
+        //navigation drawer menus selected, always get api before inflate fragment
+        switch (menuItem.getItemId()) {
+
+            case R.id.nav_first_fragment:
+                //kill Mapfragment for avoid duplicate fragment
+                killMapFragment();
+                getApi(FragmentTag.PARKINGMAP);
+                break;
+            case R.id.nav_second_fragment:
+                getApi(FragmentTag.BOOKMARK);
+                break;
+            case R.id.nav_third_fragment:
+                getApi(FragmentTag.INFORMATION);
+                break;
+            default:
+        }
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        mDrawer.closeDrawers();
+    }
+
+    // map fragment is nested on fragment kill it to be sure
+    private void killMapFragment() {
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        if (mapFragment != null)
+            getFragmentManager().beginTransaction().remove(mapFragment).commit();
+    }
+
+    private void hideProgress() {
+
         progress.setVisibility(ProgressBar.INVISIBLE);
         progress.getLayoutParams().height = 0;
         progress.getLayoutParams().width = 0;
     }
 
-    public void showProgress() {
+    private void showProgress() {
         progress.setVisibility(ProgressBar.VISIBLE);
         progress.getLayoutParams().height = progress.getLayoutParams().MATCH_PARENT;
         progress.getLayoutParams().width = progress.getLayoutParams().WRAP_CONTENT;
     }
 
-    public void getApi(final FragmentTag fragmentTag) {
+    private void getApi(final FragmentTag fragmentTag) {
 
         //show download progress
         showProgress();
@@ -226,17 +232,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Response<MapDataResWrap> response, Retrofit retrofit) {
 
-
                 //store return data to parcel
                 parcel = new MapDataResParcel();
                 parcel.setAllData(response.body().getMapDataRes().getAllData());
 
                 collectMapDataRes = new MapDataRes();
                 collectMapDataRes.setAllData(response.body().getMapDataRes().getAllData());
-
-//               Toast.makeText(MainActivity.this,"" + new Gson().toJson(response),Toast.LENGTH_SHORT).show();
-//               Toast.makeText(MainActivity.this,"" + response.body().getMapDataRes().getAllData().get(0).getName(),Toast.LENGTH_LONG).show();
-
 
                 //receive status each location
                 getApiAllDetail(fragmentTag);
@@ -251,9 +252,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void getApiAllDetail(final FragmentTag fragmentTag) {
-
-
+    private void getApiAllDetail(final FragmentTag fragmentTag) {
 
         //request body
         MapDetailReq mapDetailReq = new MapDetailReq();
@@ -263,14 +262,6 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<AllDataParkingDetail>>() {
             @Override
             public void onResponse(Response<List<AllDataParkingDetail>> response, Retrofit retrofit) {
-
-
-                //store return data to parcel
-//                parcel = new MapDataResParcel();
-//                parcel.setAllData(response.body().getMapDataRes().getAllData());
-
-//               Toast.makeText(MainActivity.this,"" + new Gson().toJson(response),Toast.LENGTH_SHORT).show();
-//               Toast.makeText(MainActivity.this,"" + response.body().getMapDataRes().getAllData().get(0).getName(),Toast.LENGTH_LONG).show();
 
                 collectAllDataParkingDetailRes = new AllParkingDetailRes();
                 collectAllDataParkingDetailRes.setAllDataParkingDetails(response.body());
@@ -296,15 +287,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
-    public void showFragment(FragmentTag fragmentTag) {
+    //fragment transaction here
+    private void showFragment(FragmentTag fragmentTag) {
 
-        //bundle to collect data from datamap
-//        Bundle myData = new Bundle();
-//        myData.putParcelable("MapData",parcel);
         Bundle myData = packingParcelBundle("MapData",collectMapDataRes,collectAllDataParkingDetailRes);
         // Create a new fragment and specify the fragment to show
         Fragment fragment = null;
@@ -324,11 +311,12 @@ public class MainActivity extends AppCompatActivity {
         }
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fl_main_content, fragment).commit();
 
     }
 
-    public Bundle packingParcelBundle(String tagName, MapDataRes collectionMapData , AllParkingDetailRes collectionDataParking) {
+    //packing AllMapData and Each location
+    private Bundle packingParcelBundle(String tagName, MapDataRes collectionMapData , AllParkingDetailRes collectionDataParking) {
 
         Bundle packingBundle = new Bundle();
         MapDataParcel mapDataParcel = new MapDataParcel();

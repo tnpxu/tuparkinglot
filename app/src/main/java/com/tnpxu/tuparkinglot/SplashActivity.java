@@ -9,7 +9,7 @@ import android.os.Bundle;
 
 public class SplashActivity extends AppCompatActivity {
 
-    public  Handler deleyHandler;
+    public Handler deleyHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
